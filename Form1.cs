@@ -16,32 +16,35 @@ namespace Server_Swapper
         public Form1()
         {
             InitializeComponent();
-            popUp.Location = new Point(12, 12);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            iTalk_ComboBox1.Items.Clear();
+            foreach (var item in comboBox1.Items)
+                iTalk_ComboBox1.Items.Add(item);
+
+            iTalk_ComboBox1.SelectedIndex = 0;
+        }
+
+        private void iTalk_Button_11_Click(object sender, EventArgs e)
+        {
+            while (Opacity > 0)
+                Opacity = Opacity - 0.0005f;
+            Environment.Exit(0);
+        }
+
+        private void iTalk_Button_21_Click(object sender, EventArgs e)
         {
             int count = 0;
             foreach (string dir in Directory.GetDirectories(@"C:\Users\" + Environment.UserName + @"\Documents\My Games\Rainbow Six - Siege"))
             {
                 DirectoryInfo info = new DirectoryInfo(dir);
                 var GameSettings = new IniFile(info.FullName + @"\GameSettings.ini");
-                GameSettings.Write("DataCenterHint", comboBox1.Items[comboBox1.SelectedIndex].ToString(), "ONLINE");
+                GameSettings.Write("DataCenterHint", "playfab/" + comboBox1.Items[iTalk_ComboBox1.SelectedIndex].ToString(), "ONLINE");
                 count++;
             }
             MessageBox.Show("Server successfuly changed for " + count + " Accounts.", "Created By AlexPerseus - Github");
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            comboBox1.SelectedIndex = 0;
-        }
-        int tickCount = 0;
-        private void removePopup_Tick(object sender, EventArgs e)
-        {
-            if (tickCount > 100)
-                popUp.Location = new Point(popUp.Location.X, popUp.Location.Y + 2);
-            tickCount++;
         }
     }
 }
